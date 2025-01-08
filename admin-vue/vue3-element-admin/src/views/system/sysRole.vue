@@ -46,7 +46,7 @@
                 <el-button type="primary" size="small" @click="editShow(scope.row)">
                     修改
                 </el-button>
-                <el-button type="danger" size="small">
+                <el-button type="danger" size="small" @click="deleteById(scope.row)">
                     删除
                 </el-button>
             </el-table-column>
@@ -66,7 +66,7 @@
             v-model="pageParams.page" 
             :current-page="pageParams.page"   
             :page-size="pageParams.limit"      
-            :page-sizes="[10, 20, 50, 100]"
+            :page-sizes="[5, 10, 20, 50, 100]"
             @size-change="fetchData"
             @current-change="fetchData"
             @update:page-size="newPageSize => pageParams.limit = newPageSize" 
@@ -81,9 +81,23 @@
 
 <script setup>
 import {ref,onMounted} from 'vue'
-import {GetSysRoleListByPage,SaveSysRole,UpdateSysRole} from '@/api/sysRole'
-import { ElMessage } from 'element-plus'
-
+import {GetSysRoleListByPage,SaveSysRole,UpdateSysRole,DeleteSysRole} from '@/api/sysRole'
+import { ElMessage,ElMessageBox } from 'element-plus'
+//角色删除
+const deleteById=(row)=>{
+    ElMessageBox.confirm('此操作将永久删除该记录, 是否继续?', 'Warning', {
+        confirmButtonText: '确定',//then方法
+        cancelButtonText: '取消',
+        type: 'warning',
+    }).then(async () => {
+       const {code}=await DeleteSysRole(row.id)
+       if(code===200)
+       {
+        ElMessage.success("删除成功")
+        fetchData()
+       }
+    })
+}
 const roleForm={
     id:"",
     roleName:"",
@@ -156,7 +170,6 @@ onMounted(()=>{
 //操作方法:列表和搜索方法
 //列表方法：axios请求调用接口得到列表数据
 const fetchData=async()=>{
-    console.log("current"+pageParams.value.page)
     const{data,code,message}=await GetSysRoleListByPage(pageParams.value.page,pageParams.value.limit,queryDto.value)
     list.value=data.list
     total.value=data.total

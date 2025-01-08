@@ -48,7 +48,12 @@
             <if test="roleName!=null and roleName!=''">
                 and role_name like concat('%',#{roleName},'%')
             </if>
+            and is_deleted=0
         </where>
         order by id desc
     </select>
+
+    <update id="delete">
+        update sys_role set is_deleted=1 where id=#{roldId}
+    </update>
 </mapper>

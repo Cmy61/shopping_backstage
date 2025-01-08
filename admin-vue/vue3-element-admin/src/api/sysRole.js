@@ -37,3 +37,12 @@ export const UpdateSysRole=(sysRole)=>{
         data:sysRole,//其他参数
       })
 }
+
+export const DeleteSysRole=(roleId)=>{
+    return request({
+        //``
+        url: `${base_api}/deleteById/${roleId}`,//路径
+        // url: '/admin/system/sysRole/findByPage/' + current + "/" + limit,//路径
+        method: 'delete'//提交方式
+      })
+}

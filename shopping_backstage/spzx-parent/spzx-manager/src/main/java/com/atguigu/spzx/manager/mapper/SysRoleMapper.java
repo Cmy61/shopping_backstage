@@ -13,4 +13,6 @@ public interface SysRoleMapper {
     void save(SysRole sysRole);
 
     void update(SysRole sysRole);
+
+    void delete(Long roleId);
 }
