@@ -1,5 +1,6 @@
 package com.atguigu.spzx.manager.mapper;
 
+import com.atguigu.spzx.model.entity.system.SysUser;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -9,5 +10,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @version: 1.0
  */
 @Mapper
-public class SysUserMapper {
+public interface SysUserMapper {
+    SysUser selectUserInfoByUserName(String userName);
 }
