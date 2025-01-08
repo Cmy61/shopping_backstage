@@ -8,6 +8,22 @@
     <sql id="columns">
         id,role_name,role_code,description,create_time,update_time,is_deleted
     </sql>
+<!--    //添加方法-->
+    <insert id="save">
+        insert into sys_role (
+            id,
+            role_name,
+            role_code,
+            description
+        ) values (
+                     #{id},
+                     #{roleName},
+                     #{roleCode},
+                     #{description}
+                )
+    </insert>
+
+
 
     <select id="findByPage" resultMap="sysRoleMap">
         select <include refid="columns"></include>

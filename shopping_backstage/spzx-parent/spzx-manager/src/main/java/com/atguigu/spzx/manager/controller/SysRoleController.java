@@ -31,4 +31,12 @@ public class SysRoleController {
         PageInfo<SysRole> pageInfo=sysRoleService.findByPage(sysRoleDto,current,limit);
         return Result.build(pageInfo, ResultCodeEnum.SUCCESS);//pageInfo包含每页数据
     }
+
+    //角色添加
+    @PostMapping(value = "/saveSysRole")
+    public Result saveSysRole(@RequestBody SysRole sysRole)
+    {
+        sysRoleService.saveSysRole(sysRole);
+        return Result.build(null,ResultCodeEnum.SUCCESS);
+    }
 }
