@@ -1,10 +1,12 @@
 package com.atguigu.spzx.manager.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.atguigu.spzx.common.exception.GuiguException;
 import com.atguigu.spzx.manager.mapper.SysUserMapper;
 import com.atguigu.spzx.manager.service.SysUserService;
 import com.atguigu.spzx.model.dto.system.LoginDto;
 import com.atguigu.spzx.model.entity.system.SysUser;
+import com.atguigu.spzx.model.vo.common.ResultCodeEnum;
 import com.atguigu.spzx.model.vo.system.LoginVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -34,7 +36,8 @@ public class SysUserServiceImpl implements SysUserService
         SysUser sysUser=sysUserMapper.selectUserInfoByUserName(userName);
         if(sysUser==null)
         {
-            throw new RuntimeException("用户名不存在");
+//            throw new RuntimeException("用户名不存在");
+            throw new GuiguException(ResultCodeEnum.LOGIN_ERROR);
         }
         String database_password=sysUser.getPassword();
         String input_password=loginDto.getPassword();
@@ -42,12 +45,17 @@ public class SysUserServiceImpl implements SysUserService
 
         if(!database_password.equals(input_password))
         {
-            throw new RuntimeException("密码不正确");
+//            throw new RuntimeException("密码不正确");
+            throw new GuiguException(ResultCodeEnum.LOGIN_ERROR);
         }
         String token= UUID.randomUUID().toString().replaceAll("-","");
         redisTemplate.opsForValue().set("user:login:" + token, JSON.toJSONString(sysUser), Duration.ofDays(7));
 
-        LoginVo loginVo=new LoginVo();
+        LoginVo loginVo = new LoginVo() ;
+        loginVo.setToken(token);
+        loginVo.setRefresh_token("");
+
+        // 返回
         return loginVo;
     }
 }
