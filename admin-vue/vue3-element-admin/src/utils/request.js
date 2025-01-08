@@ -45,7 +45,8 @@ service.interceptors.request.use(
   config => {
     const { authorization } = useApp()
     if (authorization) {
-      config.headers.Authorization = `Bearer ${authorization.token}`
+      // config.headers.Authorization = `Bearer ${authorization.token}`
+      config.headers.token = `${authorization.token}`
     }
     return config
   },
@@ -59,6 +60,7 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   // 响应成功进入第1个函数，该函数的参数是响应对象
   response => {
+    console.log(JSON.stringify(response))
     return response.data
   },
   // 响应失败进入第2个函数，该函数的参数是错误对象
@@ -98,7 +100,7 @@ service.interceptors.response.use(
           },
         })
         // 如果获取成功，则把新的 token 更新到容器中
-        // console.log('刷新 token  成功', res)
+        console.log('刷新 token  成功', res)
         setToken({
           token: res.data.data.token, // 最新获取的可用 token
           refresh_token: authorization.refresh_token, // 还是原来的 refresh_token

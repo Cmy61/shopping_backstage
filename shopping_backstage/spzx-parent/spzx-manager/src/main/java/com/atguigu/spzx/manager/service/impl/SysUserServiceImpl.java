@@ -1,5 +1,6 @@
 package com.atguigu.spzx.manager.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.atguigu.spzx.common.exception.GuiguException;
 import com.atguigu.spzx.manager.mapper.SysUserMapper;
@@ -32,6 +33,16 @@ public class SysUserServiceImpl implements SysUserService
     private RedisTemplate <String,String> redisTemplate;
     @Override
     public LoginVo login(LoginDto loginDto) {
+        String captcha=loginDto.getCaptcha();
+        String key=loginDto.getCodeKey();
+
+        String redisCode=redisTemplate.opsForValue().get("user:validate"+key);
+
+        if (StrUtil.isEmpty(redisCode) || !StrUtil.equalsIgnoreCase(redisCode.trim(), captcha.trim())) {
+            throw new GuiguException(ResultCodeEnum.VALIDATECODE_ERROR);
+        }
+        redisTemplate.delete("user:validate"+key);
+
         String userName=loginDto.getUserName();
         SysUser sysUser=sysUserMapper.selectUserInfoByUserName(userName);
         if(sysUser==null)
@@ -57,5 +68,12 @@ public class SysUserServiceImpl implements SysUserService
 
         // 返回
         return loginVo;
+    }
+
+    @Override
+    public SysUser getUserInfo(String token) {
+        String userJson=redisTemplate.opsForValue().get("user:login:" + token);
+        SysUser sysUser=JSON.parseObject(userJson,SysUser.class);
+        return sysUser;
     }
 }
