@@ -31,9 +31,9 @@ public class Knife4jConfig {
 
         return new OpenAPI()
                 .info(new Info()
-                        .title("尚品甑选API接口文档")
+                        .title("shoppingAPI接口文档")
                         .version("1.0")
-                        .description("尚品甑选API接口文档")
-                        .contact(new Contact().name("atguigu"))); // 设定作者
+                        .description("shoppingAPI接口文档")
+                        .contact(new Contact().name("cmy"))); // 设定作者
     }
 }
