@@ -60,7 +60,7 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   // 响应成功进入第1个函数，该函数的参数是响应对象
   response => {
-    console.log(JSON.stringify(response))
+    // console.log(JSON.stringify(response))
     return response.data
   },
   // 响应失败进入第2个函数，该函数的参数是错误对象
