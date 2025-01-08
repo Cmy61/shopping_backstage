@@ -24,3 +24,16 @@ export const SaveSysRole=(sysRole)=>{
         data:sysRole,//其他参数
       })
 }
+
+
+export const UpdateSysRole=(sysRole)=>{
+    return request({
+        //``
+        url: `${base_api}/updateSysRole`,//路径
+        // url: '/admin/system/sysRole/findByPage/' + current + "/" + limit,//路径
+        method: 'put',//提交方式
+        //接口@RequestBody 前端data:名称，以json格式传输
+        //接口没有注解，前端params:名称
+        data:sysRole,//其他参数
+      })
+}

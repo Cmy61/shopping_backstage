@@ -39,4 +39,12 @@ public class SysRoleController {
         sysRoleService.saveSysRole(sysRole);
         return Result.build(null,ResultCodeEnum.SUCCESS);
     }
+
+    //角色修改
+    @PutMapping("/updateSysRole")
+    public Result updateSysRole(@RequestBody SysRole sysRole)
+    {
+        sysRoleService.updteSysRole(sysRole);
+        return Result.build(null,ResultCodeEnum.SUCCESS);
+    }
 }
