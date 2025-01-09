@@ -57,7 +57,9 @@
                         class="avatar-uploader"
                         action="http://localhost:8501/admin/system/fileUpload"
                         :show-file-list="false"
-                        >
+                        :on-success="handleAvatarSuccess"
+                        :headers="headers"
+                >
                     <img v-if="sysUser.avatar" :src="sysUser.avatar" class="avatar" />
                     <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
                 </el-upload>
@@ -116,7 +118,17 @@
 import { ref ,onMounted} from 'vue'; 
 import {GetSysUserListByPage,SaveSysUser,UpdateSysUser,DeleteSysUser} from '@/api/sysUser'
 import { ElMessage,ElMessageBox } from 'element-plus';
+//用户头像上传
+import { useApp } from '@/pinia/modules/app'
 
+const headers = {
+  token: useApp().authorization.token     // 从pinia中获取token，在进行文件上传的时候将token设置到请求头中
+}
+
+// 图像上传成功以后的事件处理函数
+const handleAvatarSuccess = (response, uploadFile) => {
+    sysUser.value.avatar = response.data
+}
 //1. 用户列表
 // 表格数据模型
 const list=ref([]);
