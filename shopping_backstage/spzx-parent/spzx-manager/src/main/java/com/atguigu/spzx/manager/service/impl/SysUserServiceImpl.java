@@ -6,15 +6,19 @@ import com.atguigu.spzx.common.exception.GuiguException;
 import com.atguigu.spzx.manager.mapper.SysUserMapper;
 import com.atguigu.spzx.manager.service.SysUserService;
 import com.atguigu.spzx.model.dto.system.LoginDto;
+import com.atguigu.spzx.model.dto.system.SysUserDto;
 import com.atguigu.spzx.model.entity.system.SysUser;
 import com.atguigu.spzx.model.vo.common.ResultCodeEnum;
 import com.atguigu.spzx.model.vo.system.LoginVo;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.time.Duration;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -80,5 +84,46 @@ public class SysUserServiceImpl implements SysUserService
     @Override
     public void logout(String token) {
         redisTemplate.delete("user:login:" + token);
+    }
+
+    @Override
+    public PageInfo<SysUser> findByPage(Integer pageNum, Integer pageSize, SysUserDto sysUserDto) {
+        PageHelper.startPage(pageNum,pageSize);
+        List<SysUser> list=sysUserMapper.findByPage(sysUserDto);
+        PageInfo<SysUser> pageInfo=new PageInfo<>(list);
+        return pageInfo;
+    }
+
+    @Override
+    public void saveSysUser(SysUser sysUser) {
+        //用户名不能重复
+        String username=sysUser.getUserName();
+        SysUser userbd=sysUserMapper.selectUserInfoByUserName(username);
+        if(userbd!=null)
+        {
+            throw new GuiguException(ResultCodeEnum.USER_NAME_IS_EXISTS);
+        }
+        //加密密码
+        String password=sysUser.getPassword();
+        password=DigestUtils.md5DigestAsHex(password.getBytes());
+        sysUser.setPassword(password);
+        sysUser.setStatus(1);
+        sysUserMapper.save(sysUser);
+    }
+
+    @Override
+    public void updateSysUser(SysUser sysUser) {
+        String username=sysUser.getUserName();
+        SysUser userbd=sysUserMapper.selectUserInfoByUserName(username);
+        if(userbd!=null)
+        {
+            throw new GuiguException(ResultCodeEnum.USER_NAME_IS_EXISTS);
+        }
+        sysUserMapper.update(sysUser);
+    }
+
+    @Override
+    public void deleteById(Integer userId) {
+        sysUserMapper.delete(userId);
     }
 }
