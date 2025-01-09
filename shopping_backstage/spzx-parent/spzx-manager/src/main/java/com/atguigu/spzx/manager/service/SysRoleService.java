@@ -15,5 +15,5 @@ public interface SysRoleService {
 
     void deleteById(Long roleId);
 
-    Map<String, Object> findAll();
+    Map<String, Object> findAll(Long userId);
 }

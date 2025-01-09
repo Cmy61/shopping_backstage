@@ -48,9 +48,9 @@ export const DeleteSysRole=(roleId)=>{
 }
 
 // 查询所有的角色数据
-export const GetAllRoleList = () => {
+export const GetAllRoleList = (userId) => {
   return request({
-      url: '/admin/system/sysRole/findAllRoles',
+      url: `/admin/system/sysRole/findAllRoles/${userId}`,
       method: 'get'
   })
 }

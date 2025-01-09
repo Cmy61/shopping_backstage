@@ -152,8 +152,12 @@ const dialogRoleVisible = ref(false)
 const showAssignRole = async row => {
   sysUser.value = {...row}
   dialogRoleVisible.value = true
-  const {data}=await GetAllRoleList()
+  //得到所有角色
+  const {data}=await GetAllRoleList(row.id)
   allRoles.value=data.allRolesList
+
+  //得到分配的角色
+  userRoleIds.value=data.sysUserRoles
 }
 //////////////////////////////////////////////////////////////////////////////
 //分配角色
