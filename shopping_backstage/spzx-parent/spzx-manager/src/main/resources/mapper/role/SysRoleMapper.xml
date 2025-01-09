@@ -56,4 +56,9 @@
     <update id="delete">
         update sys_role set is_deleted=1 where id=#{roldId}
     </update>
+<!--    查询所有角色-->
+    <select id="findAll" resultMap="sysRoleMap">
+        select <include refid="columns"/>
+            from sys_role where is_deleted=0
+    </select>
 </mapper>

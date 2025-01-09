@@ -10,6 +10,8 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 /**
  * @descriptions:
  * @author: cmy
@@ -55,5 +57,10 @@ public class SysRoleController {
         sysRoleService.deleteById(roleId);
         return Result.build(null,ResultCodeEnum.SUCCESS);
     }
-
+    // 查询所有角色
+    @GetMapping(value = "/findAllRoles")
+    public Result findAllRoles() {
+        Map<String, Object> resultMap = sysRoleService.findAll();
+        return Result.build(resultMap , ResultCodeEnum.SUCCESS)  ;
+    }
 }

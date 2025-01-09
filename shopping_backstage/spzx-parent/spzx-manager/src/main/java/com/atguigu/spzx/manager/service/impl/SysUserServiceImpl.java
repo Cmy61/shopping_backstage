@@ -3,10 +3,13 @@ package com.atguigu.spzx.manager.service.impl;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.atguigu.spzx.common.exception.GuiguException;
+import com.atguigu.spzx.manager.mapper.SysRoleUserMapper;
 import com.atguigu.spzx.manager.mapper.SysUserMapper;
 import com.atguigu.spzx.manager.service.SysUserService;
+import com.atguigu.spzx.model.dto.system.AssginRoleDto;
 import com.atguigu.spzx.model.dto.system.LoginDto;
 import com.atguigu.spzx.model.dto.system.SysUserDto;
+import com.atguigu.spzx.model.entity.system.SysRoleUser;
 import com.atguigu.spzx.model.entity.system.SysUser;
 import com.atguigu.spzx.model.vo.common.ResultCodeEnum;
 import com.atguigu.spzx.model.vo.system.LoginVo;
@@ -32,7 +35,8 @@ public class SysUserServiceImpl implements SysUserService
 {
     @Autowired
     private SysUserMapper sysUserMapper;
-
+    @Autowired
+    private SysRoleUserMapper sysRoleUserMapper;
     @Autowired
     private RedisTemplate <String,String> redisTemplate;
     @Override
@@ -125,5 +129,17 @@ public class SysUserServiceImpl implements SysUserService
     @Override
     public void deleteById(Integer userId) {
         sysUserMapper.delete(userId);
+    }
+
+    @Override
+    public void doAssign(AssginRoleDto assignRoleDto) {
+        //1. 根据userId删除用户之前分配的数据
+        sysRoleUserMapper.deleteByUserId(assignRoleDto.getUserId());
+        //2. 重新分配新数据
+        List<Long> roleIdList=assignRoleDto.getRoleIdList();
+        for(Long roleId:roleIdList)
+        {
+            sysRoleUserMapper.doAssign(assignRoleDto.getUserId(),roleId);
+        }
     }
 }

@@ -93,12 +93,32 @@
             <el-button type="danger" size="small" @click="deleteById(scope.row)">
                 删除
             </el-button>
-            <el-button type="warning" size="small">
+            <el-button type="warning" size="small" @click="showAssignRole(scope.row)">
                 分配角色
             </el-button>
+            
         </el-table-column>
     </el-table>
+    <el-dialog v-model="dialogRoleVisible" title="分配角色" width="40%">
+        <el-form label-width="80px">
+            <el-form-item label="用户名">
+                <el-input disabled :value="sysUser.userName"></el-input>
+            </el-form-item>
 
+            <el-form-item label="角色列表">
+                <el-checkbox-group v-model="userRoleIds">
+                    <el-checkbox v-for="role in allRoles" :key="role.id" :label="role.id">
+                        {{ role.roleName }}
+                    </el-checkbox>
+                </el-checkbox-group>
+            </el-form-item>
+
+            <el-form-item>
+                <el-button type="primary" @click="doAssign">提交</el-button>
+                <el-button @click="dialogRoleVisible = false">取消</el-button>
+            </el-form-item>
+        </el-form>
+    </el-dialog>
     <el-pagination
             v-model="pageParams.page" 
             :current-page="pageParams.page"   
@@ -116,8 +136,40 @@
 
 <script setup>
 import { ref ,onMounted} from 'vue'; 
-import {GetSysUserListByPage,SaveSysUser,UpdateSysUser,DeleteSysUser} from '@/api/sysUser'
+import {GetSysUserListByPage,SaveSysUser,UpdateSysUser,DeleteSysUser,DoAssignRoleToUser} from '@/api/sysUser'
 import { ElMessage,ElMessageBox } from 'element-plus';
+import {GetAllRoleList} from "@/api/sysRole"
+//////////////////////////////////////////////////////////
+//为用户分配角色
+// 角色列表
+const userRoleIds = ref([])
+const allRoles = ref([
+    {"id":1 , "roleName":"管理员"},
+    {"id":2 , "roleName":"业务人员"},
+    {"id":3 , "roleName":"商品录入员"},
+])
+const dialogRoleVisible = ref(false)
+const showAssignRole = async row => {
+  sysUser.value = {...row}
+  dialogRoleVisible.value = true
+  const {data}=await GetAllRoleList()
+  allRoles.value=data.allRolesList
+}
+//////////////////////////////////////////////////////////////////////////////
+//分配角色
+const doAssign=async ()=>{
+    let assignRoleVo={
+        userId:sysUser.value.id,
+        roleIdList: userRoleIds.value
+    }
+    const {code}=await DoAssignRoleToUser(assignRoleVo)
+    if(code===200)
+    {
+        dialogRoleVisible.value=false
+        ElMessage.success("操作成功")
+        fetchData()
+    }
+}
 //用户头像上传
 import { useApp } from '@/pinia/modules/app'
 

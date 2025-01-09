@@ -1,6 +1,7 @@
 package com.atguigu.spzx.manager.service.impl;
 
 import com.atguigu.spzx.manager.mapper.SysRoleMapper;
+import com.atguigu.spzx.manager.mapper.SysRoleUserMapper;
 import com.atguigu.spzx.manager.service.SysRoleService;
 import com.atguigu.spzx.model.dto.system.SysRoleDto;
 import com.atguigu.spzx.model.entity.system.SysRole;
@@ -9,7 +10,9 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @descriptions:
@@ -21,6 +24,8 @@ import java.util.List;
 public class SysRoleServiceImpl implements SysRoleService {
     @Autowired
     private SysRoleMapper sysRoleMapper;
+    @Autowired
+    private SysRoleUserMapper sysRoleUserMapper;
     @Override
     public PageInfo<SysRole> findByPage(SysRoleDto sysRoleDto, Integer current, Integer limit) {
         //设置分页参数
@@ -44,5 +49,15 @@ public class SysRoleServiceImpl implements SysRoleService {
     @Override
     public void deleteById(Long roleId) {
         sysRoleMapper.delete(roleId);
+    }
+
+    @Override
+    public Map<String, Object> findAll() {
+        //所有角色
+        List<SysRole> roleList=sysRoleMapper.findAll();
+        //分配过的角色
+        Map<String,Object> map=new HashMap<>();
+        map.put("allRolesList",roleList);
+        return map;
     }
 }
