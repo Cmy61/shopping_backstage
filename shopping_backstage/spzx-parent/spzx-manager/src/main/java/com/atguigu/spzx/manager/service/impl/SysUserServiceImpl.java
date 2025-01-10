@@ -6,6 +6,7 @@ import com.atguigu.spzx.common.exception.GuiguException;
 import com.atguigu.spzx.manager.mapper.SysRoleUserMapper;
 import com.atguigu.spzx.manager.mapper.SysUserMapper;
 import com.atguigu.spzx.manager.service.SysUserService;
+import com.atguigu.spzx.manager.utils.AuthContextUtil;
 import com.atguigu.spzx.model.dto.system.AssginRoleDto;
 import com.atguigu.spzx.model.dto.system.LoginDto;
 import com.atguigu.spzx.model.dto.system.SysUserDto;
@@ -69,7 +70,7 @@ public class SysUserServiceImpl implements SysUserService
         }
         String token= UUID.randomUUID().toString().replaceAll("-","");
         redisTemplate.opsForValue().set("user:login:" + token, JSON.toJSONString(sysUser), Duration.ofDays(7));
-
+        AuthContextUtil.set(sysUser);
         LoginVo loginVo = new LoginVo() ;
         loginVo.setToken(token);
         loginVo.setRefresh_token("");

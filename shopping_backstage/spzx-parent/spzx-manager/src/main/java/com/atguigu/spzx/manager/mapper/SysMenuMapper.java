@@ -22,4 +22,7 @@ public interface SysMenuMapper {
     void delete(Long id);
 
     int selectCountById(Long id);
+
+
+    List<SysMenu> selectListByUserId(Long userId);
 }

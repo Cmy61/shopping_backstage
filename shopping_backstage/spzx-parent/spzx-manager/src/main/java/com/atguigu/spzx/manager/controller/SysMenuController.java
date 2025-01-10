@@ -28,14 +28,14 @@ public class SysMenuController {
         return Result.build(null, ResultCodeEnum.SUCCESS);
     }
     //修改
-    @PutMapping("/update")
+    @PutMapping("/updateById")
     public Result update(@RequestBody SysMenu sysMenu)
     {
         sysMenuService.update(sysMenu);
         return Result.build(null, ResultCodeEnum.SUCCESS);
     }
     //删除
-    @DeleteMapping("/deleteById/{id}")
+    @DeleteMapping("/removeById/{id}")
     public Result delete(@PathVariable("id")Long id)
     {
         sysMenuService.delete(id);

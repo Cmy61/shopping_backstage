@@ -1,16 +1,21 @@
 package com.atguigu.spzx.manager.controller;
 
+import com.atguigu.spzx.manager.service.SysMenuService;
 import com.atguigu.spzx.manager.service.SysUserService;
 import com.atguigu.spzx.manager.service.ValidateCodeService;
+import com.atguigu.spzx.manager.utils.AuthContextUtil;
 import com.atguigu.spzx.model.dto.system.LoginDto;
 import com.atguigu.spzx.model.entity.system.SysUser;
 import com.atguigu.spzx.model.vo.common.Result;
 import com.atguigu.spzx.model.vo.common.ResultCodeEnum;
 import com.atguigu.spzx.model.vo.system.LoginVo;
+import com.atguigu.spzx.model.vo.system.SysMenuVo;
 import com.atguigu.spzx.model.vo.system.ValidateCodeVo;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @descriptions:
@@ -24,7 +29,8 @@ import org.springframework.web.bind.annotation.*;
 public class IndexController {
     @Autowired
     private SysUserService sysUserService;
-
+    @Autowired
+    private SysMenuService sysMenuService;
     @PostMapping("/login")
     public Result login(@RequestBody LoginDto loginDto)
     {
@@ -51,5 +57,13 @@ public class IndexController {
     {
         sysUserService.logout(token);
         return Result.build(null,ResultCodeEnum.SUCCESS);
+    }
+    @GetMapping("/menus")
+    public Result menus(@RequestHeader(name="token") String token)
+    {
+        System.out.println(token);
+        SysUser sysUser = AuthContextUtil.get();
+        List<SysMenuVo> list=sysMenuService.findMenusById(token);
+        return Result.build(list,ResultCodeEnum.SUCCESS);
     }
 }
