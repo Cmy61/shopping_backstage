@@ -7,6 +7,7 @@ import com.atguigu.spzx.manager.utils.MenuHelper;
 import com.atguigu.spzx.model.entity.system.SysMenu;
 import com.atguigu.spzx.model.entity.system.SysUser;
 import com.atguigu.spzx.model.vo.common.ResultCodeEnum;
+import com.atguigu.spzx.model.vo.system.SysMenuVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -56,5 +57,15 @@ public class SysMenuServiceImpl implements SysMenuService {
             throw new GuiguException(ResultCodeEnum.NODE_ERROR);
         }
         sysMenuMapper.delete(id);
+    }
+
+    @Override
+    public List<SysMenuVo> findMenusByUserId() {
+        //获取当前用户id
+
+        //根据userId 查询可以操作菜单
+
+        //封装要求数据格式，返回
+        return null;
     }
 }
