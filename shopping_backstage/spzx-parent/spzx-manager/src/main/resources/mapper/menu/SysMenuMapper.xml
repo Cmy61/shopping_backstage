@@ -49,6 +49,9 @@
                                      INNER JOIN sys_user_role ur ON ur.role_id = rm.role_id
         WHERE ur.user_id=#{userId} and m.is_deleted = 0
     </select>
+    <select id="selectParentMenu" resultType="com.atguigu.spzx.model.entity.system.SysMenu">
+        select <include refid="columns" /> from sys_menu where id = #{parentId}
+    </select>
     <!--    添加-->
     <insert id="save" useGeneratedKeys="true" keyProperty="id">
         insert into sys_menu (

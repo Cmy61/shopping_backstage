@@ -1,81 +1,85 @@
 <template>
-    <div class="search-div">
-        <!-- template部分修改内容 -->
-        <!-- 搜索表单 -->
-        <el-form label-width="70px" size="small">
-            <el-form-item label="角色名称">
-                <el-input
-                        v-model="queryDto.roleName"
-                        style="width: 100%"
-                        placeholder="角色名称"
-                        ></el-input>
-            </el-form-item>
-            <el-row style="display:flex">
-                <el-button type="primary" size="small" @click="searchSysRole">
-                    搜索
-                </el-button>
-                <el-button size="small" @click="resetData">重置</el-button>
-            </el-row>
-        </el-form>
+  <div class="search-div">
+    <!-- template部分修改内容 -->
+    <!-- 搜索表单 -->
+    <el-form label-width="70px" size="small">
+      <el-form-item label="角色名称">
+        <el-input
+          v-model="queryDto.roleName"
+          style="width: 100%"
+          placeholder="角色名称"
+        ></el-input>
+      </el-form-item>
+      <el-row style="display:flex">
+        <el-button type="primary" size="small" @click="searchSysRole">
+          搜索
+        </el-button>
+        <el-button size="small" @click="resetData">重置</el-button>
+      </el-row>
+    </el-form>
 
-        <!-- 添加按钮 -->
-        <div class="tools-div">
-            <el-button type="success" size="small" @click="addShow">添 加</el-button>
-        </div>
-        <!-- 添加角色表单对话框 -->
-        <el-dialog v-model="dialogVisible" title="添加或修改角色" width="30%">
-            <el-form label-width="120px">
-                <el-form-item label="角色名称">
-                    <el-input v-model="sysRole.roleName"/>
-                </el-form-item>
-                <el-form-item label="角色Code">
-                    <el-input  v-model="sysRole.roleCode"/>
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="primary" @click="submit">提交</el-button>
-                    <el-button @click="dialogVisible = false">取消</el-button>
-                </el-form-item>
-            </el-form>
-        </el-dialog>
-        <!--- 角色表格数据 -->
-        <el-table :data="list" style="width: 100%">
-            <el-table-column prop="roleName" label="角色名称" width="180" />
-            <el-table-column prop="roleCode" label="角色code" width="180" />
-            <el-table-column prop="createTime" label="创建时间" />
-            <el-table-column label="操作" align="center" width="280" #default="scope">
-                <el-button type="primary" size="small" @click="editShow(scope.row)">
-                    修改
-                </el-button>
-                <el-button type="danger" size="small" @click="deleteById(scope.row)">
-                    删除
-                </el-button>
-                <el-button type="warning" size="small" @click="showAssignMenu(scope.row)">
-                    分配菜单
-                </el-button>
-            </el-table-column>
-        </el-table>
-        <!-- 分配菜单的对话框 
+    <!-- 添加按钮 -->
+    <div class="tools-div">
+      <el-button type="success" size="small" @click="addShow">添 加</el-button>
+    </div>
+    <!-- 添加角色表单对话框 -->
+    <el-dialog v-model="dialogVisible" title="添加或修改角色" width="30%">
+      <el-form label-width="120px">
+        <el-form-item label="角色名称">
+          <el-input v-model="sysRole.roleName" />
+        </el-form-item>
+        <el-form-item label="角色Code">
+          <el-input v-model="sysRole.roleCode" />
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="submit">提交</el-button>
+          <el-button @click="dialogVisible = false">取消</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
+    <!--- 角色表格数据 -->
+    <el-table :data="list" style="width: 100%">
+      <el-table-column prop="roleName" label="角色名称" width="180" />
+      <el-table-column prop="roleCode" label="角色code" width="180" />
+      <el-table-column prop="createTime" label="创建时间" />
+      <el-table-column label="操作" align="center" width="280" #default="scope">
+        <el-button type="primary" size="small" @click="editShow(scope.row)">
+          修改
+        </el-button>
+        <el-button type="danger" size="small" @click="deleteById(scope.row)">
+          删除
+        </el-button>
+        <el-button
+          type="warning"
+          size="small"
+          @click="showAssignMenu(scope.row)"
+        >
+          分配菜单
+        </el-button>
+      </el-table-column>
+    </el-table>
+    <!-- 分配菜单的对话框 
 // tree组件添加ref属性，后期方便进行tree组件对象的获取
 -->
-        <el-dialog v-model="dialogMenuVisible" title="分配菜单" width="40%">
-            <el-form label-width="80px">
-                <el-tree
-                        :data="sysMenuTreeList"
-                        ref="tree"   
-                        show-checkbox
-                        default-expand-all
-                        :check-on-click-node="true"
-                        node-key="id"
-                        :props="defaultProps"
-                />
-                <el-form-item>
-                    <el-button type="primary" @click="doAssign">提交</el-button>
-                    <el-button @click="dialogMenuVisible = false">取消</el-button>
-                </el-form-item>
-            </el-form>
-        </el-dialog>
-        <!--分页条-->
-        <!-- <el-pagination
+    <el-dialog v-model="dialogMenuVisible" title="分配菜单" width="40%">
+      <el-form label-width="80px">
+        <el-tree
+          :data="sysMenuTreeList"
+          ref="tree"
+          show-checkbox
+          default-expand-all
+          :check-on-click-node="true"
+          node-key="id"
+          :props="defaultProps"
+        />
+        <el-form-item>
+          <el-button type="primary" @click="doAssign">提交</el-button>
+          <el-button @click="dialogMenuVisible = false">取消</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
+    <!--分页条-->
+    <!-- <el-pagination
                v-model:current-page="pageParams.page"
                v-model:page-size="pageParams.limit"
                :page-sizes="[10, 20, 50, 100]"
@@ -84,62 +88,68 @@
                layout="total, sizes, prev, pager, next"
                :total="total"
         /> -->
-        <el-pagination
-            v-model="pageParams.page" 
-            :current-page="pageParams.page"   
-            :page-size="pageParams.limit"      
-            :page-sizes="[5, 10, 20, 50, 100]"
-            @size-change="fetchData"
-            @current-change="fetchData"
-            @update:page-size="newPageSize => pageParams.limit = newPageSize" 
-            @update:current-page="newPageCur => pageParams.page = newPageCur" 
-            layout="total, sizes, prev, pager, next"
-            :total="total"
-            />
-            
+    <el-pagination
+      v-model="pageParams.page"
+      :current-page="pageParams.page"
+      :page-size="pageParams.limit"
+      :page-sizes="[5, 10, 20, 50, 100]"
+      @size-change="fetchData"
+      @current-change="fetchData"
+      @update:page-size="newPageSize => (pageParams.limit = newPageSize)"
+      @update:current-page="newPageCur => (pageParams.page = newPageCur)"
+      layout="total, sizes, prev, pager, next"
+      :total="total"
+    />
   </div>
-
 </template>
 
 <script setup>
-import {ref,onMounted} from 'vue'
-import {GetSysRoleListByPage,SaveSysRole,UpdateSysRole,DeleteSysRole,GetSysRoleMenuIds,DoAssignMenuIdToSysRole} from '@/api/sysRole'
-import { ElMessage,ElMessageBox } from 'element-plus'
+import { ref, onMounted } from 'vue'
+import {
+  GetSysRoleListByPage,
+  SaveSysRole,
+  UpdateSysRole,
+  DeleteSysRole,
+  GetSysRoleMenuIds,
+  DoAssignMenuIdToSysRole,
+} from '@/api/sysRole'
+import { ElMessage, ElMessageBox } from 'element-plus'
 //分配
 const doAssign = async () => {
-    const checkedNodes = tree.value.getCheckedNodes() ; // 获取选中的节点
-    const checkedNodesIds = checkedNodes.map(node => {  // 获取选中的节点的id
-        return {
-            id: node.id,
-            isHalf: 0
-        }
-    })
-        
-    // 获取半选中的节点数据，当一个节点的子节点被部分选中时，该节点会呈现出半选中的状态
-    const halfCheckedNodes = tree.value.getHalfCheckedNodes() ; 
-    const halfCheckedNodesIds = halfCheckedNodes.map(node => {   // 获取半选中节点的id
-        return {
-            id: node.id,
-            isHalf: 1
-        }
-    })
-        
-    // 将选中的节点id和半选中的节点的id进行合并
-    const menuIds = [...checkedNodesIds , ...halfCheckedNodesIds]  
-    console.log(menuIds);
-
-    // 构建请求数据
-    const assignMenuDto = {
-        roleId: roleId,
-        menuIdList: menuIds
+  const checkedNodes = tree.value.getCheckedNodes() // 获取选中的节点
+  const checkedNodesIds = checkedNodes.map(node => {
+    // 获取选中的节点的id
+    return {
+      id: node.id,
+      isHalf: 0,
     }
-    
-    // 发送请求
-    await DoAssignMenuIdToSysRole(assignMenuDto) ;
-    ElMessage.success('操作成功')
-    dialogMenuVisible.value = false
+  })
 
-} 
+  // 获取半选中的节点数据，当一个节点的子节点被部分选中时，该节点会呈现出半选中的状态
+  const halfCheckedNodes = tree.value.getHalfCheckedNodes()
+  const halfCheckedNodesIds = halfCheckedNodes.map(node => {
+    // 获取半选中节点的id
+    return {
+      id: node.id,
+      isHalf: 1,
+    }
+  })
+
+  // 将选中的节点id和半选中的节点的id进行合并
+  const menuIds = [...checkedNodesIds, ...halfCheckedNodesIds]
+  console.log(menuIds)
+
+  // 构建请求数据
+  const assignMenuDto = {
+    roleId: roleId,
+    menuIdList: menuIds,
+  }
+
+  // 发送请求
+  await DoAssignMenuIdToSysRole(assignMenuDto)
+  ElMessage.success('操作成功')
+  dialogMenuVisible.value = false
+}
 //为角色分配菜单///////////////////////////////////////////////////////
 const defaultProps = {
   children: 'children',
@@ -149,117 +159,114 @@ const dialogMenuVisible = ref(false)
 const sysMenuTreeList = ref([])
 
 // 树对象变量
-const tree = ref() 
+const tree = ref()
 
 // 默认选中的菜单数据集合
 let roleId = ref()
-const showAssignMenu = async row => { 
+const showAssignMenu = async row => {
   dialogMenuVisible.value = true
   roleId = row.id
-  const { data } = await GetSysRoleMenuIds(row.id)   // 请求后端地址获取所有的菜单数据，以及当前角色所对应的菜单数据
+  const { data } = await GetSysRoleMenuIds(row.id) // 请求后端地址获取所有的菜单数据，以及当前角色所对应的菜单数据
   sysMenuTreeList.value = data.sysMenuList
-  tree.value.setCheckedKeys(data.roleMenuIds)   // 进行数据回显
+  tree.value.setCheckedKeys(data.roleMenuIds) // 进行数据回显
 }
 //角色删除
-const deleteById=(row)=>{
-    ElMessageBox.confirm('此操作将永久删除该记录, 是否继续?', 'Warning', {
-        confirmButtonText: '确定',//then方法
-        cancelButtonText: '取消',
-        type: 'warning',
-    }).then(async () => {
-       const {code}=await DeleteSysRole(row.id)
-       if(code===200)
-       {
-        ElMessage.success("删除成功")
-        fetchData()
-       }
-    })
+const deleteById = row => {
+  ElMessageBox.confirm('此操作将永久删除该记录, 是否继续?', 'Warning', {
+    confirmButtonText: '确定', //then方法
+    cancelButtonText: '取消',
+    type: 'warning',
+  }).then(async () => {
+    const { code } = await DeleteSysRole(row.id)
+    if (code === 200) {
+      ElMessage.success('删除成功')
+      fetchData()
+    }
+  })
 }
-const roleForm={
-    id:"",
-    roleName:"",
-    roleCode:""
+const roleForm = {
+  id: '',
+  roleName: '',
+  roleCode: '',
 }
-const sysRole=ref(roleForm)
+const sysRole = ref(roleForm)
 //角色添加功能
-const dialogVisible=ref(false)
+const dialogVisible = ref(false)
 
 //弹出框进行数据回显
-const editShow=(row)=>{//row是传回来的每一行数据
-    //对象拓展运算符
-    sysRole.value={...row}//值的复制
-    dialogVisible.value=true
+const editShow = row => {
+  //row是传回来的每一行数据
+  //对象拓展运算符
+  sysRole.value = { ...row } //值的复制
+  dialogVisible.value = true
 }
 //点击添加弹出框
 
-const addShow=()=>{
-    sysRole.value={}
-    dialogVisible.value=true
+const addShow = () => {
+  sysRole.value = {}
+  dialogVisible.value = true
 }
 
 //添加或修改方法
 //有id值就是修改，没有id值就是添加
-const submit=async()=>{
-    if(!sysRole.value.id)
-{
-    const {code}=await SaveSysRole(sysRole.value)
-    if(code===200)
-    {
-        //关闭弹窗
-        dialogVisible.value=false
-        //提示信息
-        ElMessage.success("操作成功")
-        //刷新页面
-        fetchData()
+const submit = async () => {
+  if (!sysRole.value.id) {
+    const { code } = await SaveSysRole(sysRole.value)
+    if (code === 200) {
+      //关闭弹窗
+      dialogVisible.value = false
+      //提示信息
+      ElMessage.success('操作成功')
+      //刷新页面
+      fetchData()
     }
-}
-    else{
-        const{code}=await UpdateSysRole(sysRole.value)
-        if(code===200)
-        {
-            //关闭弹窗
-            dialogVisible.value=false
-            //提示信息
-            ElMessage.success("操作成功")
-            //刷新页面
-            fetchData()
-        }
+  } else {
+    const { code } = await UpdateSysRole(sysRole.value)
+    if (code === 200) {
+      //关闭弹窗
+      dialogVisible.value = false
+      //提示信息
+      ElMessage.success('操作成功')
+      //刷新页面
+      fetchData()
     }
-
+  }
 }
 //角色列表
 //定义数据模型
-let list=ref([]) //角色列表
-let total=ref(0)//总记录数
+let list = ref([]) //角色列表
+let total = ref(0) //总记录数
 //分页数据
-const pageParamsForm={
-    page:1,
-    limit:3,
+const pageParamsForm = {
+  page: 1,
+  limit: 3,
 }
-const pageParams=ref(pageParamsForm)
+const pageParams = ref(pageParamsForm)
 
-const queryDto=ref({"roleName":""})//条件封装数据
+const queryDto = ref({ roleName: '' }) //条件封装数据
 
 //钩子函数
-onMounted(()=>{
-    fetchData()
+onMounted(() => {
+  fetchData()
 })
 //操作方法:列表和搜索方法
 //列表方法：axios请求调用接口得到列表数据
-const fetchData=async()=>{
-    const{data,code,message}=await GetSysRoleListByPage(pageParams.value.page,pageParams.value.limit,queryDto.value)
-    list.value=data.list
-    total.value=data.total
+const fetchData = async () => {
+  const { data, code, message } = await GetSysRoleListByPage(
+    pageParams.value.page,
+    pageParams.value.limit,
+    queryDto.value
+  )
+  list.value = data.list
+  total.value = data.total
 }
 
-const searchSysRole=()=>{
-    fetchData()
+const searchSysRole = () => {
+  fetchData()
 }
-
 </script>
 
 <style scoped>
-
 .search-div {
   margin-bottom: 10px;
   padding: 10px;
@@ -275,5 +282,4 @@ const searchSysRole=()=>{
   border-radius: 3px;
   background-color: #fff;
 }
-
 </style>

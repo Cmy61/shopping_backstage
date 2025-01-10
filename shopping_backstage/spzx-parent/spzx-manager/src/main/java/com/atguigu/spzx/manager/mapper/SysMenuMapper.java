@@ -25,4 +25,6 @@ public interface SysMenuMapper {
 
 
     List<SysMenu> selectListByUserId(Long userId);
+
+    SysMenu selectParentMenu(Long parentId);
 }

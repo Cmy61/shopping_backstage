@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.atguigu.spzx.common.exception.GuiguException;
 import com.atguigu.spzx.manager.mapper.SysMenuMapper;
+import com.atguigu.spzx.manager.mapper.SysRoleMenuMapper;
 import com.atguigu.spzx.manager.service.SysMenuService;
 import com.atguigu.spzx.manager.utils.AuthContextUtil;
 import com.atguigu.spzx.manager.utils.MenuHelper;
@@ -11,6 +12,7 @@ import com.atguigu.spzx.model.entity.system.SysMenu;
 import com.atguigu.spzx.model.entity.system.SysUser;
 import com.atguigu.spzx.model.vo.common.ResultCodeEnum;
 import com.atguigu.spzx.model.vo.system.SysMenuVo;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,8 @@ import java.util.List;
 public class SysMenuServiceImpl implements SysMenuService {
     @Autowired
     private SysMenuMapper sysMenuMapper;
+    @Autowired
+    private SysRoleMenuMapper sysRoleMenuMapper;
     //菜单列表
     @Override
     public List<SysMenu> findNodes() {
@@ -45,7 +49,19 @@ public class SysMenuServiceImpl implements SysMenuService {
     @Override
     public void save(SysMenu sysMenu) {
         sysMenuMapper.save(sysMenu);
+        updateSysRoleMenu(sysMenu);
     }
+    public void updateSysRoleMenu(SysMenu sysMenu)
+    {
+        //获取当前添加菜单的父菜单
+        SysMenu sysMenu1=sysMenuMapper.selectParentMenu(sysMenu.getParentId());
+        if(sysMenu1!=null)
+        {
+            sysRoleMenuMapper.updateSysRoleMenuIsHalf(sysMenu1.getId());
+            updateSysRoleMenu(sysMenu1);
+        }
+    }
+
     @Autowired
     private RedisTemplate<String,String> redisTemplate;
     @Override
