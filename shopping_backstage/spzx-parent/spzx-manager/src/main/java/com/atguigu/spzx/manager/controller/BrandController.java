@@ -9,6 +9,8 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @descriptions:
  * @author: cmy
@@ -53,5 +55,12 @@ public class BrandController {
     {
         brandService.deleteById(id);
         return Result.build(null,ResultCodeEnum.SUCCESS);
+    }
+
+    @GetMapping("/findAll")
+    public Result findAll()
+    {
+        List<Brand> list=brandService.findAll();
+        return Result.build(list,ResultCodeEnum.SUCCESS);
     }
 }
