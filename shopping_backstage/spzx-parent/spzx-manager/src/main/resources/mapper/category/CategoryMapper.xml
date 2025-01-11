@@ -15,4 +15,10 @@
         and is_deleted=0
 
     </select>
+    <select id="findAll" resultType="com.atguigu.spzx.model.entity.product.Category">
+        select <include refid="columns"/>
+        from category
+        where is_deleted=0
+        order by id
+    </select>
 </mapper>
