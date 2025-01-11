@@ -94,6 +94,7 @@ const saveOrUpdate = () => {
 
 // 修改
 const updateData = async () => {
+    console.log("test"+brand.value.name)
     await UpdateBrandById(brand.value)
     dialogVisible.value = false
     ElMessage.success('操作成功')
