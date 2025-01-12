@@ -139,6 +139,7 @@ const saveOrUpdate = () => {
   }
   //categoryId为数组：[1,2,3]
   if (categoryBrand.value.categoryId.length != 3) {
+    console.log(categoryBrand.value.categoryId.length)
     ElMessage.info('分类信息必须选择')
     return
   }

@@ -6,4 +6,10 @@ import com.github.pagehelper.PageInfo;
 
 public interface CategoryBrandService {
     PageInfo<CategoryBrand> findByPage(Integer page, Integer limit, CategoryBrandDto categoryBrandDto);
+
+    void save(CategoryBrand categoryBrand);
+
+    void update(CategoryBrand categoryBrand);
+
+    void deleteById(Long id);
 }

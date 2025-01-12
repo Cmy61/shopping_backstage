@@ -28,4 +28,19 @@ public class CategoryBrandServiceImpl implements CategoryBrandService {
         PageInfo<CategoryBrand> pageInfo=new PageInfo<>(list);
         return pageInfo;
     }
+
+    @Override
+    public void save(CategoryBrand categoryBrand) {
+        categoryBrandMapper.save(categoryBrand);
+    }
+
+    @Override
+    public void update(CategoryBrand categoryBrand) {
+        categoryBrandMapper.update(categoryBrand);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        categoryBrandMapper.delete(id);
+    }
 }

@@ -15,4 +15,10 @@ import java.util.List;
 @Mapper
 public interface CategoryBrandMapper {
     public List<CategoryBrand> findByPage(CategoryBrandDto categoryBrandDto);
+
+    void save(CategoryBrand categoryBrand);
+
+    void update(CategoryBrand categoryBrand);
+
+    void delete(Long id);
 }
