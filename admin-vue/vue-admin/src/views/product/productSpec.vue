@@ -140,7 +140,7 @@ const productSpec = ref(defaultForm)
 
 //进入修改
 const editShow = row => {
-    productSpec.value = row 
+    productSpec.value = {...row} 
     dialogVisible.value = true
 }
 
