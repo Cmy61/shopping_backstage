@@ -10,6 +10,8 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @descriptions:
  * @author: cmy
@@ -47,5 +49,11 @@ public class CategoryBrandController {
     {
         categoryBrandService.deleteById(id);
         return Result.build(null,ResultCodeEnum.SUCCESS);
+    }
+    //根据分类id查询对应品牌数据
+    @GetMapping("/findBrandByCategoryId/{categoryId}")
+    public Result findBrandByCategoryId(@PathVariable Long categoryId) {
+        List<Brand> brandList =   categoryBrandService.findBrandByCategoryId(categoryId);
+        return Result.build(brandList , ResultCodeEnum.SUCCESS) ;
     }
 }
