@@ -453,7 +453,6 @@ const total = ref(0)
 // 钩子函数
 onMounted(async () => {
     const { data } = await FindAllBrand() 
-    console.log("brand"+data)
     brandList.value = data
     fetchData()
 })
@@ -556,7 +555,6 @@ const categoryChange = async () => {
       product.value.category2Id = categoryIdList.value[1]
       product.value.category3Id = categoryIdList.value[2]
       const { data } = await FindBrandByCategoryId(categoryIdList.value[2])
-      console.log("data"+data)
       categoryBrandList.value = data
       if(product.value.id) {
         product.value.brandId = ''

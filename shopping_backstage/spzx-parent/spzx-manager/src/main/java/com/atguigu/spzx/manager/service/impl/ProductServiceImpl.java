@@ -44,7 +44,7 @@ public class ProductServiceImpl implements ProductService {
         //1 保存商品基本信息 product 表
         product.setStatus(0);
         product.setAuditStatus(0);
-        productMapper.save();
+        productMapper.save(product);
         //2 获取商品sku列表合集，保存sku信息，product_sku表
         List<ProductSku> productSkuList = product.getProductSkuList();
         for(int i=0;i<productSkuList.size();i++)
@@ -63,5 +63,36 @@ public class ProductServiceImpl implements ProductService {
         productDetails.setProductId(product.getId());
         productDetails.setImageUrls(product.getDetailsImageUrls());
         productDetailsMapper.save(productDetails);
+    }
+//根据商品id查询商品信息
+    @Override
+    public Product getById(Long id) {
+        // 1根据id查询商品基本信息product
+        Product product=productMapper.findProductById(id);
+        //2 根据id查询商品sku信息列表 product_sku
+        List<ProductSku> productSkuList=productSkuMapper.findProductSkuByProductId(id);
+        product.setProductSkuList(productSkuList);
+
+        //3 根据id删除商品详情数据 product_details
+        ProductDetails productDetails=productDetailsMapper.findProductDetailsById(id);
+        String imageUrls=productDetails.getImageUrls();
+        product.setDetailsImageUrls(imageUrls);
+        return product;
+    }
+
+    @Override
+    public void update(Product product)
+    {
+        productMapper.updateById(product);
+        List<ProductSku> productSkuList=product.getProductSkuList();
+        productSkuList.forEach(productSku -> {
+            productSkuMapper.updateById(product);
+        });
+        //修改product_details
+        String detailsImageUrls=product.getDetailsImageUrls();
+        ProductDetails productDetails = productDetailsMapper.findProductDetailsById(product.getId());
+        productDetails.setImageUrls(detailsImageUrls);
+        productDetailsMapper.updateById(productDetails);
+
     }
 }

@@ -6,6 +6,7 @@ import com.atguigu.spzx.model.entity.product.Product;
 import com.atguigu.spzx.model.vo.common.Result;
 import com.atguigu.spzx.model.vo.common.ResultCodeEnum;
 import com.github.pagehelper.PageInfo;
+import org.simpleframework.xml.Path;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,5 +32,20 @@ public class ProductController {
     public Result save(@RequestBody Product product) {
         productService.save(product);
         return Result.build(null , ResultCodeEnum.SUCCESS) ;
+    }
+
+    //根据商品id查询商品信息
+    @GetMapping("/getById/{id}")
+    public Result getById(@PathVariable Long id)
+    {
+        Product product=productService.getById(id);
+        return Result.build(product , ResultCodeEnum.SUCCESS) ;
+    }
+
+    @PutMapping("/updateById")
+    public Result update(@RequestBody Product product)
+    {
+        productService.update(product);
+        return Result.build(product , ResultCodeEnum.SUCCESS) ;
     }
 }

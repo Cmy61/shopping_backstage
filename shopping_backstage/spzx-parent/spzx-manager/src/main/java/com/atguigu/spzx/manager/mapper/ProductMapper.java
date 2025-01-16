@@ -10,5 +10,11 @@ import java.util.List;
 public interface ProductMapper {
     List<Product> findByPage(ProductDto productDto);
 
-    void save();
+    
+
+    Product findProductById(Long id);
+
+    void updateById(Product product);
+
+    void save(Product product);
 }
