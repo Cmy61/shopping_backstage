@@ -95,4 +95,12 @@ public class ProductServiceImpl implements ProductService {
         productDetailsMapper.updateById(productDetails);
 
     }
+
+    @Override
+    public void deleteById(Long id) {
+        productMapper.deleteById(id);
+        productSkuMapper.deleteByProductId(id);
+        productDetailsMapper.deleteByProductId(id);
+
+    }
 }

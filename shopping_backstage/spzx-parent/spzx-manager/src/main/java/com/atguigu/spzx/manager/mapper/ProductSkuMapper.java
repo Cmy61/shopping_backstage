@@ -13,4 +13,6 @@ public interface ProductSkuMapper {
     List<ProductSku> findProductSkuByProductId(Long id);
 
     void updateById(Product product);
+
+    void deleteByProductId(Long id);
 }

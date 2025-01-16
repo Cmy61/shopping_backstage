@@ -6,6 +6,7 @@ import com.atguigu.spzx.model.entity.product.Product;
 import com.atguigu.spzx.model.vo.common.Result;
 import com.atguigu.spzx.model.vo.common.ResultCodeEnum;
 import com.github.pagehelper.PageInfo;
+import io.swagger.v3.oas.annotations.Parameter;
 import org.simpleframework.xml.Path;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -47,5 +48,11 @@ public class ProductController {
     {
         productService.update(product);
         return Result.build(product , ResultCodeEnum.SUCCESS) ;
+    }
+
+    @DeleteMapping("/deleteById/{id}")
+    public Result deleteById(@Parameter(name = "id", description = "商品id", required = true) @PathVariable Long id) {
+        productService.deleteById(id);
+        return Result.build(null , ResultCodeEnum.SUCCESS) ;
     }
 }

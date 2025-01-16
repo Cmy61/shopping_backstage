@@ -98,6 +98,13 @@
         where
         id = #{id}
     </update>
+    <update id="deleteById">
+        update product set
+                           update_time = now() ,
+                           is_deleted = 1
+        where
+            id = #{id}
+    </update>
     <select id="findByPage" resultType="com.atguigu.spzx.model.entity.product.Product">
         select
         p.id, p.name , p.brand_id , p.category1_id , p.category2_id , p.category3_id, p.unit_name,
