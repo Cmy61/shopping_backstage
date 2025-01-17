@@ -30,8 +30,7 @@ public class OrderStatisticsTask {
 private OrderInfoMapper orderInfoMapper;
 @Autowired
 private OrderStatisticsMapper orderStatisticsMapper;
-//    @Scheduled(cron = "0 0 2 * * ?")
-@Scheduled(cron = "0/10 * * * * ?")
+    @Scheduled(cron = "0 0 2 * * ?")
     public void orderTotalAmountStatistics()
     {
         // 1 获取前一天日期

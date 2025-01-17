@@ -18,4 +18,18 @@
                      #{totalNum}
                  )
     </insert>
+    <resultMap id="orderStatisticsMap" type="com.atguigu.spzx.model.entity.order.OrderStatistics" autoMapping="true"></resultMap>
+    <select id="selectList" resultType="com.atguigu.spzx.model.entity.order.OrderStatistics">
+        select <include refid="columns" />
+        from order_statistics
+        <where>
+            <if test="createTimeBegin != null and createTimeBegin != ''">
+                and order_date >= #{createTimeBegin}
+            </if>
+            <if test="createTimeEnd != null and createTimeEnd != ''">
+                and order_date &lt;= #{createTimeEnd}
+            </if>
+        </where>
+        order by order_date
+    </select>
 </mapper>
