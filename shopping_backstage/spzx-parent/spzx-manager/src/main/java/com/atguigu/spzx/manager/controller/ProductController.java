@@ -55,4 +55,15 @@ public class ProductController {
         productService.deleteById(id);
         return Result.build(null , ResultCodeEnum.SUCCESS) ;
     }
+
+    @GetMapping("/updateAuditStatus/{id}/{auditStatus}")
+    public Result updateAuditStatus(@PathVariable Long id, @PathVariable Integer auditStatus) {
+        productService.updateAuditStatus(id, auditStatus);
+        return Result.build(null , ResultCodeEnum.SUCCESS) ;
+    }
+    @GetMapping("/updateStatus/{id}/{status}")
+    public Result updateStatus(@PathVariable Long id, @PathVariable Integer status) {
+        productService.updateStatus(id, status);
+        return Result.build(null , ResultCodeEnum.SUCCESS) ;
+    }
 }

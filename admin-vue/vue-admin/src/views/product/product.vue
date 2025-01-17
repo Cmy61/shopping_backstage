@@ -754,7 +754,8 @@ const dialogAuditVisible = ref(false)
 const audit = async id => {
   const { data } = await GetProductById(id)
   product.value = data
-
+  console.log("data:"+data)
+  console.log("dataId:"+product.value.category1Id)
   //分类赋值
   categoryIdList.value = [ product.value.category1Id, product.value.category2Id, product.value.category3Id]
 

@@ -47,6 +47,7 @@ public class ProductServiceImpl implements ProductService {
         productMapper.save(product);
         //2 获取商品sku列表合集，保存sku信息，product_sku表
         List<ProductSku> productSkuList = product.getProductSkuList();
+
         for(int i=0;i<productSkuList.size();i++)
         {
             ProductSku productSku=productSkuList.get(i);
@@ -60,6 +61,8 @@ public class ProductServiceImpl implements ProductService {
         }
         //3 保存商品详情数据 produtct_detail
         ProductDetails productDetails=new ProductDetails();
+        Long id = product.getId();
+        System.out.println("Product ID: " + product.getId());
         productDetails.setProductId(product.getId());
         productDetails.setImageUrls(product.getDetailsImageUrls());
         productDetailsMapper.save(productDetails);
@@ -74,7 +77,7 @@ public class ProductServiceImpl implements ProductService {
         product.setProductSkuList(productSkuList);
 
         //3 根据id删除商品详情数据 product_details
-        ProductDetails productDetails=productDetailsMapper.findProductDetailsById(id);
+        ProductDetails productDetails=productDetailsMapper.findProductDetailsById(product.getId());
         String imageUrls=productDetails.getImageUrls();
         product.setDetailsImageUrls(imageUrls);
         return product;
@@ -102,5 +105,31 @@ public class ProductServiceImpl implements ProductService {
         productSkuMapper.deleteByProductId(id);
         productDetailsMapper.deleteByProductId(id);
 
+    }
+
+    @Override
+    public void updateAuditStatus(Long id, Integer auditStatus) {
+        Product product = new Product();
+        product.setId(id);
+        if(auditStatus == 1) {
+            product.setAuditStatus(1);
+            product.setAuditMessage("审批通过");
+        } else {
+            product.setAuditStatus(-1);
+            product.setAuditMessage("审批不通过");
+        }
+        productMapper.updateById(product);
+    }
+
+    @Override
+    public void updateStatus(Long id, Integer status) {
+        Product product = new Product();
+        product.setId(id);
+        if(status == 1) {
+            product.setStatus(1);
+        } else {
+            product.setStatus(-1);
+        }
+        productMapper.updateById(product);
     }
 }

@@ -24,7 +24,7 @@
             and p.is_deleted = 0
         </where>
     </sql>
-    <insert id="save" >
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
         insert into product (
             id,
             name,
