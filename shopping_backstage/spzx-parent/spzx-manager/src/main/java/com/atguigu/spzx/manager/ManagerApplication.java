@@ -1,5 +1,6 @@
 package com.atguigu.spzx.manager;
 
+import com.atguigu.spzx.common.log.annotation.EnableLogAspect;
 import com.atguigu.spzx.manager.properties.MinioProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,6 +17,7 @@ import javax.swing.*;
  * @version: 1.0
  */
 @SpringBootApplication
+@EnableLogAspect
 @ComponentScan(basePackages ={"com.atguigu.spzx"})
 @EnableConfigurationProperties(value={MinioProperties.class})
 @EnableScheduling//开启定时任务

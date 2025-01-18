@@ -1,5 +1,6 @@
 package com.atguigu.spzx.manager.controller;
 
+import com.atguigu.spzx.common.log.annotation.Log;
 import com.atguigu.spzx.manager.mapper.SysRoleMapper;
 import com.atguigu.spzx.manager.service.SysRoleService;
 import com.atguigu.spzx.model.dto.system.SysRoleDto;
@@ -35,6 +36,7 @@ public class SysRoleController {
     }
 
     //角色添加
+    @Log(title="角色管理:添加",businessType=1)
     @PostMapping(value = "/saveSysRole")
     public Result saveSysRole(@RequestBody SysRole sysRole)
     {
