@@ -43,3 +43,9 @@ public void save(Product product) {
 }
 
 添加之后无法获取product.getId()D:\cmy\learning\shopping_backstage\shopping_backstage\spzx-parent\spzx-manager\src\main\java\com\atguigu\spzx\manager\service\impl\ProductServiceImpl.java
+
+
+
+
+
+077 078没有完成 因为需要用到前面的内容
