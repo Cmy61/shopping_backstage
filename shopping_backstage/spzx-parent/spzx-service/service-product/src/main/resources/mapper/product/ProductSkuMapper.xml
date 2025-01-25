@@ -59,4 +59,16 @@
             order by sku.sale_price desc
         </if>
     </select>
+    <select id="getById" resultType="com.atguigu.spzx.model.entity.product.ProductSku">
+        select <include refid="columns" />
+        from product_sku
+        where
+        id = #{id}
+    </select>
+    <select id="findByProductId" resultType="com.atguigu.spzx.model.entity.product.ProductSku">
+        select <include refid="columns" />
+        from product_sku
+        where
+        product_id = #{productId}
+    </select>
 </mapper>
