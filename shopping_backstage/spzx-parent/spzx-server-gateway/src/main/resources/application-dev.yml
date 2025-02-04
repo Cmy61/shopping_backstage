@@ -25,5 +25,8 @@ spring:
         - id: service-product
           uri: lb://service-product
           predicates:
-            - Path=/*/product/**
-            #- Path=/*/product/** 如果匹配上，就访问lb://service-product路径
+            - Path=/*/product/**  #- Path=/*/product/** 如果匹配上，就访问lb://service-product路径
+        - id: service-user
+          uri: lb://service-user
+          predicates:
+            - Path=/*/user/**

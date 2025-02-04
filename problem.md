@@ -49,3 +49,13 @@ public void save(Product product) {
 
 
 077 078没有完成 因为需要用到前面的内容
+
+
+
+
+
+091 注册部分无法实现，报错，
+
+错误是com.atguigu.spzx.user.service.impl;里关于userInfoMapper的内容
+
+UserInfo userInfo = userInfoMapper.selectByUsername(username);
