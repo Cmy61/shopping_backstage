@@ -4,22 +4,26 @@ import com.atguigu.spzx.model.vo.common.ResultCodeEnum;
 import lombok.Data;
 
 /**
- * @descriptions:
- * @author: cmy
- * @date: 2025/1/7 20:17
- * @version: 1.0
+ * @author ljl
+ * @create 2023-10-24-22:13
  */
 @Data
-public class GuiguException extends RuntimeException{
-    private Integer code;
-    private String message;
+public class GuiguException extends RuntimeException {
 
-    private ResultCodeEnum resultCodeEnum;
+    private Integer code ;          // 错误状态码
+    private String message ;        // 错误消息
 
-    public GuiguException(ResultCodeEnum resultCodeEnum)
-    {
-        this.resultCodeEnum=resultCodeEnum;
-        this.code=resultCodeEnum.getCode();
-        this.message=resultCodeEnum.getMessage();
+    private ResultCodeEnum resultCodeEnum ;     // 封装错误状态码和错误消息
+
+    public GuiguException(ResultCodeEnum resultCodeEnum) {
+        this.resultCodeEnum = resultCodeEnum ;
+        this.code = resultCodeEnum.getCode() ;
+        this.message = resultCodeEnum.getMessage();
     }
+
+    public GuiguException(Integer code , String message) {
+        this.code = code ;
+        this.message = message ;
+    }
+
 }

@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
+//实体类添加 OpenAPI 或 Swagger 文档的注解，它的作用是提供关于实体类的描述信息。
 @Schema(description = "响应结果实体类")
 public class Result<T> {
 

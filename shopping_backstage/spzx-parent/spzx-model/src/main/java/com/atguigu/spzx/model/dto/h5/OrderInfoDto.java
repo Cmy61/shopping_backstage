@@ -6,6 +6,8 @@ import lombok.Data;
 import java.math.BigDecimal;
 import java.util.List;
 
+
+//dto封装提交过来的数据
 @Data
 public class OrderInfoDto {
 

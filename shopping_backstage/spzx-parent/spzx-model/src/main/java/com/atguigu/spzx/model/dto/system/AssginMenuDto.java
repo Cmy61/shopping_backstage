@@ -14,6 +14,10 @@ public class AssginMenuDto {
     private Long roleId;			// 角色id
 
     @Schema(description = "选中的菜单id的集合")
-    private List<Map<String , Number>> menuIdList;	// 选中的菜单id的集合; Map的键表示菜单的id，值表示是否为半开; 0否，1是
-
+    private List<Map<String , Number>> menuIdList;
+    // 选中的菜单id的集合; Map的键表示菜单的id，值表示是否为半开; 0否，1是
+    //List<Map<String , Number>>中
+    //第一列 key : id   value : 菜单id 值
+    //第一列 key ：isHalf   value : 0 或者 1
+    //菜单都选择就是0（全开），否则就是1（半开）
 }

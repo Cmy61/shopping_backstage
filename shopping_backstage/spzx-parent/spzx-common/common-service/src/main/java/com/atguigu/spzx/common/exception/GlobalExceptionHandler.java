@@ -1,30 +1,32 @@
 package com.atguigu.spzx.common.exception;
 
+/**
+ * @author ljl
+ * @create 2023-10-24-22:12
+ */
+
 import com.atguigu.spzx.model.vo.common.Result;
-import com.atguigu.spzx.model.vo.common.ResultCodeEnum;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * @descriptions:
- * @author: cmy
- * @date: 2025/1/7 20:14
- * @version: 1.0
+ * 统一异常处理类
  */
 @ControllerAdvice
 public class GlobalExceptionHandler {
+
     @ExceptionHandler(Exception.class)
     @ResponseBody
-    public Result error()
-    {
-        return Result.build(null, ResultCodeEnum.SYSTEM_ERROR);
-    }
-    @ExceptionHandler(GuiguException.class)
-    @ResponseBody
-    public Result error(GuiguException e)
-    {
-        return Result.build(null, e.getResultCodeEnum());
+    public Result error(Exception e){
+        e.printStackTrace();
+        return Result.build(null , 201,"出现了异常") ;
     }
 
+    @ExceptionHandler(value = GuiguException.class)     // 处理自定义异常
+    @ResponseBody
+    public Result error(GuiguException exception) {
+        exception.printStackTrace();
+        return Result.build(null , exception.getResultCodeEnum()) ;
+    }
 }

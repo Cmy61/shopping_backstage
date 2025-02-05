@@ -9,21 +9,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * @descriptions:
- * @author: cmy
- * @date: 2025/2/2 16:03
- * @version: 1.0
- */
 @RestController
 @RequestMapping("api/user/sms")
 public class SmsController {
+
     @Autowired
     private SmsService smsService ;
 
     @GetMapping(value = "/sendCode/{phone}")
-    public Result sendCode(@PathVariable String phone) {
-        smsService.sendCode(phone);
+    public Result sendValidateCode(@PathVariable String phone) {
+        smsService.sendValidateCode(phone);
         return Result.build(null , ResultCodeEnum.SUCCESS) ;
     }
+
 }
