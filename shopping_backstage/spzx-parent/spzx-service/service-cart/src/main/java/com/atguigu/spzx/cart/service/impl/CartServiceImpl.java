@@ -160,6 +160,20 @@ public class CartServiceImpl implements CartService {
         return null;
     }
 
+    @Override
+    public void deleteChecked() {
+        Long id = AuthContextUtil.getUserInfo().getId();
+        String cartKey=this.getCartKey(id);
+        List<Object> objectList = redisTemplate.opsForHash().values(cartKey);
+
+        //删除选中商品
+        objectList.stream().map(object ->
+                        JSON.parseObject(object.toString(), CartInfo.class))
+                .filter(cartInfo->cartInfo.getIsChecked()==1)
+                .forEach(cartInfo -> redisTemplate.opsForHash().delete(cartKey,
+                        String.valueOf(cartInfo.getSkuId())));
+    }
+
     private String getCartKey(Long userId) {
         return "user:cart:"+userId;
     }

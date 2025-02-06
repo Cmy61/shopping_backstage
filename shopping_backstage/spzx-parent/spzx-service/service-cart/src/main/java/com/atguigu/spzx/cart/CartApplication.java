@@ -1,6 +1,7 @@
 package com.atguigu.spzx.cart;
 
 import com.atguigu.spzx.common.anno.EnableUserLoginAuthInterceptor;
+import com.atguigu.spzx.common.anno.EnableUserTokenFeignInterceptor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -14,6 +15,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  */
 @EnableFeignClients(basePackages = {"com.atguigu.spzx"})//开启远程调用
 @EnableUserLoginAuthInterceptor //将信息放到threadlocal中
+@EnableUserTokenFeignInterceptor
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)  // 排除数据库的自动化配置，Cart微服务不需要访问数据库
 public class CartApplication {
 

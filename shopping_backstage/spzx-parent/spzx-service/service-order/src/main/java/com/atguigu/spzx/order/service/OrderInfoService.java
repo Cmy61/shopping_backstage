@@ -10,5 +10,7 @@ public interface OrderInfoService {
     TradeVo getTrade();
 
 
+    Long submitOrder(OrderInfoDto orderInfoDto);
 
+    OrderInfo getOrderInfo(Long orderId);
 }
