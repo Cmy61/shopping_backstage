@@ -19,7 +19,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("api/order/cart")
-public class CartController {
+public class CartInfoController {
     @Autowired
     private CartService cartService;
     @Operation(summary = "查询购物车")
@@ -64,5 +64,13 @@ public class CartController {
     public Result clearCart(){
         cartService.clearCart();
         return Result.build(null, ResultCodeEnum.SUCCESS);
+    }
+
+    //远程调用，获取购物车中选中商品 返回list就可以
+    @Operation(summary="选中的购物车")
+    @GetMapping(value = "/auth/getAllCkecked")
+    public List<CartInfo> getAllCkecked() {
+        List<CartInfo> cartInfoList = cartService.getAllCkecked() ;
+        return cartInfoList;
     }
 }

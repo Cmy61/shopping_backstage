@@ -26,7 +26,7 @@ public class UserAddressController {
 
    @Operation(summary = "获取用户地址列表")
    @GetMapping("userAddress/auth/findUserAddressList")
-   public Result<List<UserAddress>> findUserAddressList() {
+   public Result findUserAddressList() {
       List<UserAddress> list = userAddressService.findUserAddressList();
       return Result.build(list , ResultCodeEnum.SUCCESS) ;
    }
